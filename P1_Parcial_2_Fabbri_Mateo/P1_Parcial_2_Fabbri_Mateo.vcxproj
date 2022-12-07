@@ -142,20 +142,26 @@
     <ClCompile Include="AwesomeLibrary.cpp" />
     <ClCompile Include="Base.cpp" />
     <ClCompile Include="Character.cpp" />
+    <ClCompile Include="Collectibles.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameObject.cpp" />
+    <ClCompile Include="LifePlus.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Map.cpp" />
     <ClCompile Include="Obstacle.cpp" />
+    <ClCompile Include="ScoreUp.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AwesomeLibrary.h" />
     <ClInclude Include="Base.h" />
     <ClInclude Include="Character.h" />
+    <ClInclude Include="Collectibles.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameObject.h" />
+    <ClInclude Include="LifePlus.h" />
     <ClInclude Include="Map.h" />
     <ClInclude Include="Obstacle.h" />
+    <ClInclude Include="ScoreUp.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -2,6 +2,11 @@
 #include "GameObject.h"
 class Character : public GameObject
 {
+private:
+	int maxLives;
+	int lives;
+	int score;
+
 public:
 	Character(Vector2 pos);
 	~Character() override;
@@ -10,5 +15,10 @@ public:
 	void update() override;
 
 	void takeInput();
-	bool checkCollision(Vector2 pos, Vector2 boxCollider) override;
+	void drawLives();
+	int getLives();
+	void loseLife();
+	int getScore();
+	void lifeUp();
+	void scoreUp();
 };

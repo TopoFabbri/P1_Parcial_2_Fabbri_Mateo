@@ -2,6 +2,7 @@
 
 Base::Base()
 {
+	isActive = false;
 }
 
 Base::~Base()

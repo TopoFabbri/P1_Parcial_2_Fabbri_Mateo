@@ -7,6 +7,8 @@
 class Game : public Base
 {
 private:
+	int score;
+
 	Base* map;
 
 public:

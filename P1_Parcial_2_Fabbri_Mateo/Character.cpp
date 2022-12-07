@@ -2,11 +2,15 @@
 
 Character::Character(Vector2 pos)
 {
+	maxLives = 3;
+	lives = 3;
+	score = 0;
 	exPos = pos;
 	this->pos = pos;
 	boxCollider = { 3, 3 };
 	mesh = " 0 /|\\/ \\";
-	std::cout << "CreatedCharacter\n";
+	std::cout << "Created Character\n";
+	color = Color::CYAN;
 }
 
 Character::~Character()
@@ -27,6 +31,7 @@ void Character::update()
 void Character::takeInput()
 {
 	int key = getKey(false);
+	key = tolower(key);
 
 	if (key == 'w')
 		pos.y--;
@@ -41,19 +46,34 @@ void Character::takeInput()
 		pos.x++;
 }
 
-bool Character::checkCollision(Vector2 pos, Vector2 boxCollider)
+void Character::drawLives()
 {
-	Vector2 a1 = { this->pos.x - this->boxCollider.x / 2,
-					this->pos.y - this->boxCollider.y / 2 };
+	goToCoordinates({ 1, 1 });
+	std::cout << lives << " : " << score;
+}
 
-	Vector2 a2 = { this->pos.x + this->boxCollider.x / 2,
-					this->pos.y + this->boxCollider.y / 2 };
+int Character::getLives()
+{
+	return lives;
+}
 
-	Vector2 b1 = { pos.x - boxCollider.x / 2,
-					pos.y - boxCollider.y / 2 };
+void Character::loseLife()
+{
+	lives--;
+}
 
-	Vector2 b2 = { pos.x + boxCollider.x / 2,
-					pos.y + boxCollider.y / 2 };
+int Character::getScore()
+{
+	return score;
+}
 
-	return (a2.x < b1.x || a1.x > b2.x || a2.y < b1.y || a1.y > b2.y);
+void Character::lifeUp()
+{
+	if (lives + 1 <= maxLives)
+		lives++;
+}
+
+void Character::scoreUp()
+{
+	score++;
 }

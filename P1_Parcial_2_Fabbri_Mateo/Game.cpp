@@ -1,9 +1,10 @@
-#include "Game.h"
-
 #include <iostream>
+
+#include "Game.h"
 
 Game::Game()
 {
+	score = 0;
 	isActive = false;
 	map = new Map({getScreenWidth() - 1, getScreenHeight() - 1});
 }
@@ -46,6 +47,9 @@ void Game::start()
 void Game::update()
 {
 	map->update();
+
+	if (dynamic_cast<Map*>(map)->shouldGameEnd())
+		isActive = false;
 }
 
 void Game::draw()
