@@ -2,13 +2,14 @@
 
 #include "Character.h"
 
-LifePlus::LifePlus()
+LifePlus::LifePlus(int id)
 {
 	reposition();
 	boxCollider = { 1, 1 };
 	mesh = "+";
 	std::cout << "Created LifePlus\n";
 	color = Color::GREEN;
+	this->id = id;
 }
 
 LifePlus::~LifePlus()

@@ -145,10 +145,12 @@
     <ClCompile Include="Collectibles.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameObject.cpp" />
+    <ClCompile Include="HUD.cpp" />
     <ClCompile Include="LifePlus.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Map.cpp" />
     <ClCompile Include="Obstacle.cpp" />
+    <ClCompile Include="ScoreMultiply.cpp" />
     <ClCompile Include="ScoreUp.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -158,9 +160,11 @@
     <ClInclude Include="Collectibles.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameObject.h" />
+    <ClInclude Include="HUD.h" />
     <ClInclude Include="LifePlus.h" />
     <ClInclude Include="Map.h" />
     <ClInclude Include="Obstacle.h" />
+    <ClInclude Include="ScoreMultiply.h" />
     <ClInclude Include="ScoreUp.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

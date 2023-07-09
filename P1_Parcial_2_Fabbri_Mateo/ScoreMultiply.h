@@ -1,11 +1,10 @@
 #pragma once
 #include "Collectibles.h"
-
-class ScoreUp : public Collectibles
+class ScoreMultiply : public Collectibles
 {
-public:
-	ScoreUp(int id);
-	~ScoreUp() override;
+	public:
+	ScoreMultiply(int id);
+	~ScoreMultiply() override;
 
 	void start() override;
 	void update() override;

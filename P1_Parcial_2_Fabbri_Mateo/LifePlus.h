@@ -5,7 +5,7 @@
 class LifePlus : public Collectibles
 {
 public:
-	LifePlus();
+	LifePlus(int id);
 	~LifePlus() override;
 
 	void start() override;

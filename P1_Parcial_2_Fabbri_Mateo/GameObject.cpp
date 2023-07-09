@@ -55,8 +55,11 @@ void GameObject::collideEffect()
 	pos = exPos;
 }
 
-bool GameObject::checkCollision(Vector2 pos, Vector2 boxCollider)
+bool GameObject::checkCollision(Vector2 pos, Vector2 boxCollider, int id)
 {
+	if (this->id == id)
+		return false;
+
 	Vector2 a1 = { this->pos.x - this->boxCollider.x / 2,
 					this->pos.y - this->boxCollider.y / 2 };
 
@@ -116,6 +119,11 @@ Vector2 GameObject::getPos()
 Vector2 GameObject::getCollider()
 {
 	return boxCollider;
+}
+
+int GameObject::getId()
+{
+	return id;
 }
 
 void GameObject::setPos(Vector2 pos)

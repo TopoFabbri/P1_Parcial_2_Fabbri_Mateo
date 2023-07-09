@@ -4,22 +4,37 @@ Map::Map(Vector2 size)
 {
 	isActive = false;
 	this->size = size;
-	player = new Character({ 5, 5 });
+	player = new Character({ 5, 5 }, 0);
 	character = dynamic_cast<Character*>(player);
 
-	lifePlus = new LifePlus();
+	lifePlus = new LifePlus(1);
 
 	for (int i = 0; i < obsQty; i++)
 	{
-		obstacles[i] = new Obstacle();
+		obstacles[i] = new Obstacle(2 + i);
 		obs[i] = dynamic_cast<Obstacle*>(obstacles[i]);
 	}
 
 	for (int i = 0; i < coinQty; i++)
+		coins[i] = new ScoreUp(13 + i);
+
+	for (int i = 0; i < multQty; i++)
+		mults[i] = new ScoreMultiply(23 + i);
+
+	hud = new HUD(character);
+
+	positionObject(dynamic_cast<GameObject*>(lifePlus));
+
+	for (int i = 0; i < obsQty; i++)
 	{
-		coins[i] = new ScoreUp();
-		coins[i] = dynamic_cast<ScoreUp*>(coins[i]);
+		positionObject(dynamic_cast<GameObject*>(obs[i]));
 	}
+
+	for (int i = 0; i < coinQty; i++)
+		positionObject(dynamic_cast<GameObject*>(coins[i]));
+
+	for (int i = 0; i < multQty; i++)
+		positionObject(dynamic_cast<GameObject*>(mults[i]));
 }
 
 Map::~Map()
@@ -49,31 +64,47 @@ void Map::update()
 
 	for (int i = 0; i < obsQty; i++)
 	{
-		if (character->checkCollision(obs[i]->getPos(), obs[i]->getCollider()))
+		if (character->checkCollision(obs[i]->getPos(), obs[i]->getCollider(), obs[i]->getId()))
 		{
 			character->collideEffect();
 			character->loseLife();
 		}
 	}
 
+	if (character->checkCollision(dynamic_cast<LifePlus*>(lifePlus)->getPos(),
+		dynamic_cast<LifePlus*>(lifePlus)->getCollider(),
+		dynamic_cast<LifePlus*>(lifePlus)->getId()))
+	{
+		positionObject(dynamic_cast<GameObject*>(lifePlus));
+		dynamic_cast<LifePlus*>(lifePlus)->collect(character);
+	}
+
 	for (int i = 0; i < coinQty; i++)
 	{
 		if (character->checkCollision(dynamic_cast<ScoreUp*>(coins[i])->getPos(),
-			dynamic_cast<ScoreUp*>(coins[i])->getCollider()))
+			dynamic_cast<ScoreUp*>(coins[i])->getCollider(),
+			dynamic_cast<ScoreUp*>(coins[i])->getId()))
 		{
-			dynamic_cast<ScoreUp*>(coins[i])->reposition();
+			positionObject(dynamic_cast<GameObject*>(coins[i]));
 			dynamic_cast<ScoreUp*>(coins[i])->collect(character);
 		}
 	}
 
-	if (character->checkCollision(static_cast<LifePlus*>(lifePlus)->getPos(), static_cast<LifePlus*>(lifePlus)->getCollider()))
+	for (int i = 0; i < multQty; i++)
 	{
-		static_cast<LifePlus*>(lifePlus)->reposition();
-		static_cast<LifePlus*>(lifePlus)->collect(character);
+		if (character->checkCollision(dynamic_cast<ScoreMultiply*>(mults[i])->getPos(),
+			dynamic_cast<ScoreMultiply*>(mults[i])->getCollider(),
+			dynamic_cast<ScoreMultiply*>(mults[i])->getId()))
+		{
+			positionObject(dynamic_cast<GameObject*>(mults[i]));
+			dynamic_cast<ScoreMultiply*>(mults[i])->collect(character);
+		}
 	}
 
 	if (character->collideWall(size))
 		character->collideEffect();
+
+	hud->update();
 }
 
 void Map::draw()
@@ -81,18 +112,22 @@ void Map::draw()
 	drawFrame({ 0, 0 }, size);
 	player->draw();
 	lifePlus->draw();
-	character->drawLives();
 
 	for (int i = 0; i < obsQty; i++)
 		obstacles[i]->draw();
 
 	for (int i = 0; i < coinQty; i++)
 		coins[i]->draw();
+
+	for (int i = 0; i < multQty; i++)
+		mults[i]->draw();
+
+	hud->draw();
 }
 
 bool Map::shouldGameEnd()
 {
-	if (character->getLives() <= 0)
+	if (character->getLives() <= 0 || character->getMoves() <= 0)
 	{
 		clearScreen();
 		std::cout << "YOU LOSE!\n";
@@ -129,20 +164,23 @@ bool Map::isObjectColliding(GameObject* obj)
 {
 	for (int i = 0; i < obsQty; i++)
 	{
-		if (obj->checkCollision(obs[i]->getPos(), obs[i]->getCollider()))
+		if (obj->checkCollision(obs[i]->getPos(), obs[i]->getCollider(), obs[i]->getId()))
 			return true;
 	}
 
 	for (int i = 0; i < coinQty; i++)
 	{
 		if (obj->checkCollision(dynamic_cast<ScoreUp*>(coins[i])->getPos(),
-			dynamic_cast<ScoreUp*>(coins[i])->getCollider()))
+			dynamic_cast<ScoreUp*>(coins[i])->getCollider(),
+			dynamic_cast<ScoreUp*>(coins[i])->getId()))
 		{
 			return true;
 		}
 	}
 
-	if (obj->checkCollision(static_cast<LifePlus*>(lifePlus)->getPos(), static_cast<LifePlus*>(lifePlus)->getCollider()))
+	if (obj->checkCollision(static_cast<LifePlus*>(lifePlus)->getPos(),
+		static_cast<LifePlus*>(lifePlus)->getCollider(),
+		static_cast<LifePlus*>(lifePlus)->getId()))
 		return true;
 
 	if (obj->collideWall(size))

@@ -1,13 +1,14 @@
 #include "Obstacle.h"
 
-Obstacle::Obstacle()
+Obstacle::Obstacle(int id)
 {
 	exPos = pos;
 	reposition();
 	boxCollider = { 2, 1 };
-	mesh = "/\\";
+	mesh = "^^";
 	std::cout << "Created Obstacle\n";
 	color = Color::RED;
+	this->id = id;
 }
 
 Obstacle::~Obstacle()

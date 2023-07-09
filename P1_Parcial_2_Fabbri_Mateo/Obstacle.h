@@ -3,7 +3,7 @@
 class Obstacle : public GameObject
 {
 public:
-	Obstacle();
+	Obstacle(int id);
 	~Obstacle() override;
 
 	void start() override;
